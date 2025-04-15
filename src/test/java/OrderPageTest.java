@@ -6,15 +6,16 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import ru.praktikum.MainPage;
 import ru.praktikum.OrderPage;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static ru.praktikum.MainPage.BASE_URL;
 
 @RunWith(Parameterized.class)
 public class OrderPageTest {
     private WebDriver driver;
-    private final String pageUrl = "https://qa-scooter.praktikum-services.ru/";
 
     // Параметры для теста
     private final String firstName;
@@ -45,13 +46,14 @@ public class OrderPageTest {
     }
 
     // Два набора данных
-    @Parameterized.Parameters()
+    // Добавил аргумент name
+    @Parameterized.Parameters(name = "Тестовые данные: {0} {1}")
     public static Object[][] testOrder() {
         return new Object[][]{
                 //Набор 1 валидные значения
-                {"Даниил", "Тимошенко", "ул. Ленина, 1", "Черкизовская", "+78005553535", "15.04.2025", "сутки", "чёрный жемчуг", "Позвонить за час", true},
+                {"Дмитрий", "Лалчук", "ул. Ленина, 1", "Черкизовская", "+78005553535", "15.04.2025", "сутки", "чёрный жемчуг", "Позвонить за час", true},
                 //Набор 2 невалидные значения
-                {"Даниил", "Тимошенко", "ул. Ленина, 1", "Черкизовская", "+78005553535", "15.04.2025", "сутки", "чёрный жемчуг", "Позвонить за час", false},
+                {"Максим", "Бекк", "ул. Ленина, 1", "Черкизовская", "+78005553535", "15.04.2025", "сутки", "чёрный жемчуг", "Позвонить за час", false},
         };
     }
 
@@ -62,24 +64,32 @@ public class OrderPageTest {
         WebDriverManager.chromedriver().setup();
         //driver = new ChromeDriver();
         driver = new FirefoxDriver();
-        driver.get(pageUrl);
+        driver.manage().window().maximize();
+        driver.get(BASE_URL);
 
     }
 
 
 
     @Test
-    public void testOrderFlow()  {
+    public void testOrderButtonInHead() throws InterruptedException {
         OrderPage orderPage = new OrderPage(driver);
+        MainPage mainPage = new MainPage(driver);
 
         // Шаг 0: Принять куки
-        orderPage.acceptCookies();
+        mainPage.clickOnCookieButton();
+
+        Thread.sleep(2000);
 
         // Шаг 1: Нажать кнопку «Заказать»
-        orderPage.clickOrderButtonTop(isTopButton);
+        mainPage.clickOrderButtonHeader();
+
+        Thread.sleep(2000);
 
         // Шаг 2: Ожидать загрузки формы
         orderPage.waitForLoadOrderPage();
+
+        Thread.sleep(2000);
 
         // Шаг 3: Заполнить форму «Для кого самокат»
         orderPage.setNameInput(firstName);
@@ -112,15 +122,17 @@ public class OrderPageTest {
 
 
     }
+
     @Test
-    public void testOrderFlow1()  {
+    public void testOrderButtonInBody()  {
         OrderPage orderPage = new OrderPage(driver);
+        MainPage mainPage = new MainPage(driver);
 
         // Шаг 0: Принять куки
-        orderPage.acceptCookies();
+        mainPage.clickOnCookieButton();
 
         // Шаг 1: Нажать кнопку «Заказать»
-        orderPage.clickOrderButtonBottom(isTopButton);
+        mainPage.clickOrderButtonBody();
 
         // Шаг 2: Ожидать загрузки формы
         orderPage.waitForLoadOrderPage();

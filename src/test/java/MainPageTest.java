@@ -7,16 +7,15 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import ru.praktikum.MainPage;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.fail;
+import static ru.praktikum.MainPage.BASE_URL;
 
 @RunWith(Parameterized.class)
 public class MainPageTest {
     private WebDriver driver;
-    private final String pageUrl = "https://qa-scooter.praktikum-services.ru/";
 
     private final int numberOfElement;
 
@@ -29,6 +28,7 @@ public class MainPageTest {
         this.expectedItemText = expectedItemText;
     }
 
+    // Добавил аргумент name
     @Parameterized.Parameters(name = "Проверяемый элемент: {1}" )
     public static Object[][] testData() {
         return new Object[][]{
@@ -48,11 +48,13 @@ public class MainPageTest {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         //driver = new FirefoxDriver();
-        driver.get(pageUrl);
+        driver.manage().window().maximize();
+        driver.get(BASE_URL);
     }
 
     @Test
-    public void checkAccordion() {
+    //Изменил название метода с использованием слова Test
+    public void testAccordion() {
         MainPage mainPage = new MainPage(driver);
 
         mainPage.clickOnCookieButton();

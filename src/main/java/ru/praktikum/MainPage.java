@@ -11,13 +11,16 @@ public class MainPage {
     //Создали драйвер
     private WebDriver driver;
 
+    // Константа для URL
+    public static final String BASE_URL = "https://qa-scooter.praktikum-services.ru/";
+
     // Локаторы на всей страницы сайта
     // локатор кнопки заказать в шапке страницы
     private final By headerOrderButton = By.cssSelector("button[class='Button_Button__ra12g']");
     // локатор кнопки куки
     private final By cookieButton = By.className("App_CookieButton__3cvqF");
     // локатор кнопки заказать в теле страницы
-    private final By orderButtonDown = By.className("Button_Middle__1CSJM");
+    private final By orderButtonDown = By.className("Button_UltraBig__UU3Lp");
     // локатор раскрывающего блока с вопросами
     private final By accordionHeader = By.className("accordion__button");
     // локатор раскрывающего блока
