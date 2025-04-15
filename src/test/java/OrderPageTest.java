@@ -79,17 +79,17 @@ public class OrderPageTest {
         // Шаг 0: Принять куки
         mainPage.clickOnCookieButton();
 
-        Thread.sleep(2000);
+
 
         // Шаг 1: Нажать кнопку «Заказать»
         mainPage.clickOrderButtonHeader();
 
-        Thread.sleep(2000);
+
 
         // Шаг 2: Ожидать загрузки формы
         orderPage.waitForLoadOrderPage();
 
-        Thread.sleep(2000);
+
 
         // Шаг 3: Заполнить форму «Для кого самокат»
         orderPage.setNameInput(firstName);
